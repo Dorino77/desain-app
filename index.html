@@ -1,0 +1,3347 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>KARSA — Fokus. Tumbuh. Bersama.</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Nunito:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Palet warna */
+        --neon-ice: #34f6f2;
+        --frosted-blue: #78e3fd;
+        --light-cyan: #d1f5ff;
+        --alice-blue: #eef8ff;
+        --slate-blue: #7d53de;
+
+        /* Warna tambahan untuk kontras UI/UX yang lebih baik */
+        --warm-amber: #f59e0b;
+        --amber-light: #fef3c7;
+        --deep-purple: #4a2b99;
+
+        --bg: var(--alice-blue);
+        --bg2: var(--light-cyan);
+        --card: var(--slate-blue);
+        --card2: var(--alice-blue);
+        --border: var(--slate-blue);
+        --primary: var(--neon-ice);
+        --primary2: var(--frosted-blue);
+        --blue: var(--slate-blue);
+        --blue2: var(--frosted-blue);
+        --green: #22c97a;
+        --red: #ff4040;
+        --cream: #000820; /* Teks Gelap */
+        --muted: #7d53de;
+        --muted2: var(--slate-blue);
+        --online: #22c97a;
+        --offline: #ff4040;
+        --shadow: 0 4px 24px rgba(125, 83, 222, 0.2);
+        --radius: 16px;
+        --white: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #ffffff;
+        font-family: "Nunito", sans-serif;
+        color: var(--cream);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      /* ── PHONE SHELL ── */
+      .phone {
+        width: 375px;
+        height: 812px;
+        background: var(--bg);
+        border-radius: 44px;
+        overflow: hidden;
+        position: relative;
+        box-shadow:
+          0 30px 80px rgba(125, 83, 222, 0.4),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .status-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 24px 6px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--cream);
+        flex-shrink: 0;
+      }
+      .status-bar .pill {
+        width: 28px;
+        height: 8px;
+        background: var(--slate-blue);
+        border-radius: 4px;
+      }
+      .status-icons {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      .status-icons svg {
+        width: 14px;
+        height: 14px;
+        fill: var(--cream);
+      }
+
+      /* ── SCREENS ── */
+      .screens {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+      }
+      .screen {
+        position: absolute;
+        inset: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: none;
+        flex-direction: column;
+        padding-bottom: 80px;
+      }
+      .screen.active {
+        display: flex;
+      }
+      .screen::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* ── BOTTOM NAV ── */
+      .bottom-nav {
+        height: 72px;
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 8px;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 10;
+      }
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 12px;
+        transition: all 0.2s;
+        font-size: 10px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .nav-item svg {
+        width: 22px;
+        height: 22px;
+      }
+      .nav-item.active {
+        color: var(--blue);
+      }
+      .nav-item.active svg {
+        filter: drop-shadow(0 0 6px var(--slate-blue));
+      }
+
+      /* ── PAGE HEADER ── */
+      .page-header {
+        padding: 16px 20px 10px;
+        font-family: "Cinzel", serif;
+        font-size: 22px;
+        color: var(--cream);
+        letter-spacing: 1px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(to bottom, var(--slate-blue), transparent);
+      }
+
+      /* ── BUTTONS ── */
+      .btn {
+        border: none;
+        cursor: pointer;
+        border-radius: 12px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        transition: all 0.18s;
+        outline: none;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--neon-ice), var(--slate-blue));
+        color: #fff;
+        padding: 14px;
+        font-size: 15px;
+        box-shadow: 0 4px 16px rgba(125, 83, 222, 0.4);
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(125, 83, 222, 0.5);
+      }
+      .btn-green {
+        background: linear-gradient(135deg, var(--green), #18a060);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+      .btn-red {
+        background: linear-gradient(135deg, var(--red), #cc2020);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+      .btn-ghost {
+        background: var(--light-cyan);
+        color: var(--cream);
+        border: 1px solid var(--border);
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+
+      /* ── INPUTS ── */
+      .input-field {
+        background: var(--alice-blue);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        color: var(--cream);
+        font-family: "Nunito", sans-serif;
+        font-size: 14px;
+        width: 100%;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .input-field::placeholder {
+        color: var(--muted);
+      }
+      .input-field:focus {
+        border-color: var(--neon-ice);
+      }
+
+      /* ── PROGRESS BAR ── */
+      .progress-wrap {
+        background: var(--alice-blue);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.6s ease;
+      }
+
+      /* ── CHIPS/TAGS ── */
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: var(--light-cyan);
+        border: 1px solid var(--border);
+        border-radius: 99px;
+        padding: 4px 10px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      /* ══════════════════════════════
+      IMAGE PLACEHOLDER UTILITY
+  ══════════════════════════════ */
+      .img-placeholder {
+        display: block;
+        width: 100%;
+        position: relative;
+        background: var(--light-cyan);
+        border: 1.5px dashed var(--border);
+        overflow: hidden;
+      }
+      .img-placeholder::before {
+        content: "";
+        display: block;
+      }
+      .img-placeholder img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .img-placeholder .img-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        pointer-events: none;
+      }
+      .img-placeholder .img-label svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--muted);
+        fill: none;
+        stroke-width: 1.5;
+        opacity: 0.6;
+      }
+      .img-placeholder img:not([src=""]) + .img-label {
+        display: none;
+      }
+      .ratio-1-1::before {
+        padding-bottom: 100%;
+      }
+      .ratio-4-3::before {
+        padding-bottom: 75%;
+      }
+      .ratio-16-9::before {
+        padding-bottom: 56.25%;
+      }
+      .ratio-3-4::before {
+        padding-bottom: 133.33%;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 1 — LOGIN
+  ═══════════════════════════════════════════ */
+      #screen-login {
+        padding-bottom: 0;
+        background: linear-gradient(
+          160deg,
+          var(--slate-blue) 0%,
+          var(--alice-blue) 60%,
+          var(--white) 100%
+        );
+      }
+      .login-art {
+        height: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .login-art::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at 50% 80%,
+          rgba(52, 246, 242, 0.18) 0%,
+          transparent 70%
+        );
+      }
+      .login-art .wave {
+        position: absolute;
+        bottom: 0;
+        left: -50%;
+        right: -50%;
+        height: 120px;
+        background: radial-gradient(
+          ellipse at 50% 100%,
+          rgba(125, 83, 222, 0.2) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+      .logo-mark {
+        font-family: "Cinzel", serif;
+        font-size: 52px;
+        font-weight: 800;
+        color: var(--slate-blue);
+        text-shadow: 0 0 40px rgba(125, 83, 222, 0.5);
+        letter-spacing: 4px;
+        position: relative;
+        z-index: 1;
+      }
+      .logo-sub {
+        font-size: 10px;
+        letter-spacing: 5px;
+        color: var(--muted);
+        margin-top: 4px;
+        position: relative;
+        z-index: 1;
+      }
+      .login-card {
+        flex: 1;
+        background: linear-gradient(to bottom, var(--white), var(--alice-blue));
+        border-radius: 28px 28px 0 0;
+        padding: 32px 24px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        box-shadow: 0 -10px 40px rgba(125, 83, 222, 0.1);
+      }
+      .login-card h2 {
+        font-size: 20px;
+        color: var(--cream);
+      }
+      .login-card p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: -8px;
+      }
+      .forgot-link {
+        text-align: right;
+        font-size: 12px;
+        color: var(--blue);
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .divider {
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+        margin: 4px 0;
+      }
+      .register-link {
+        text-align: center;
+        font-size: 13px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .register-link span {
+        color: var(--blue);
+        font-weight: 700;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 2 — HOME
+  ═══════════════════════════════════════════ */
+      #screen-home {
+        padding-bottom: 80px;
+      }
+      .home-header {
+        padding: 16px 20px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .user-greet {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .user-name {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--cream);
+      }
+      .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--neon-ice), var(--slate-blue));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 800;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .reward-badge {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--amber-light);
+        border: 1px solid var(--warm-amber);
+        border-radius: 99px;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--warm-amber);
+      }
+      .level-bar-wrap {
+        margin: 8px 20px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .level-label {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--white);
+        background: rgba(125, 83, 222, 0.3);
+        border-radius: 6px;
+        padding: 2px 8px;
+        white-space: nowrap;
+        border: 1px solid var(--border);
+      }
+      .level-bar {
+        flex: 1;
+        height: 6px;
+      }
+      .level-fill {
+        background: linear-gradient(
+          90deg,
+          var(--frosted-blue),
+          var(--neon-ice)
+        );
+      }
+
+      .pet-showcase {
+        margin: 16px 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        overflow: hidden;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .pet-showcase::before {
+        padding-bottom: 52%;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        margin-top: 16px;
+      }
+      .section-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--cream);
+      }
+      .see-all {
+        font-size: 12px;
+        color: var(--blue);
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .task-cards {
+        padding: 8px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .task-card-mini {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow);
+      }
+      .task-card-mini.urgent {
+        border-left: 3px solid var(--red);
+      }
+      .task-card-mini.normal {
+        border-left: 3px solid var(--blue);
+      }
+      .task-badge-urgent {
+        font-size: 10px;
+        font-weight: 800;
+        background: rgba(255, 64, 64, 0.15);
+        color: var(--red);
+        border-radius: 6px;
+        padding: 2px 6px;
+        margin-bottom: 4px;
+        display: inline-block;
+      }
+      .task-badge-normal {
+        font-size: 10px;
+        font-weight: 800;
+        background: rgba(125, 83, 222, 0.15);
+        color: var(--blue);
+        border-radius: 6px;
+        padding: 2px 6px;
+        margin-bottom: 4px;
+        display: inline-block;
+      }
+      .task-name {
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .task-meta-small {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .task-reward {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+      }
+      .reward-pill {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--blue);
+        background: rgba(125, 83, 222, 0.12);
+        border-radius: 99px;
+        padding: 4px 10px;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 3 — PET
+  ═══════════════════════════════════════════ */
+      #screen-pet {
+        padding: 0 0 80px;
+      }
+      .pet-page-header {
+        background: linear-gradient(135deg, var(--white), var(--alice-blue));
+        border-bottom: 1px solid var(--border);
+        padding: 16px 20px 20px;
+      }
+      .pet-name-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .pet-name {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--cream);
+      }
+      .pet-level-badge {
+        background: rgba(125, 83, 222, 0.2);
+        border: 1px solid var(--border);
+        border-radius: 99px;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--blue);
+      }
+      .pet-xp-hint {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .pet-xp-bar {
+        margin-top: 8px;
+        height: 8px;
+      }
+      .pet-xp-fill {
+        background: linear-gradient(
+          90deg,
+          var(--frosted-blue),
+          var(--neon-ice)
+        );
+      }
+
+      .pet-visual {
+        margin: 16px 0 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        overflow: hidden;
+      }
+      .pet-visual::before {
+        padding-bottom: 75%;
+      }
+
+      .cookies-bar {
+        margin: 12px 20px 0;
+        background: var(--amber-light);
+        border: 1px solid var(--warm-amber);
+        border-radius: 14px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: var(--shadow);
+      }
+      .cookies-label {
+        font-size: 12px;
+        color: var(--warm-amber);
+        font-weight: 700;
+      }
+      .cookies-value {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--warm-amber);
+      }
+
+      .food-section {
+        padding: 16px 20px;
+      }
+      .food-grid {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .food-item {
+        flex: 1;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 10px 8px 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: var(--shadow);
+      }
+      .food-item:hover {
+        border-color: var(--neon-ice);
+        transform: translateY(-2px);
+      }
+      .food-img-wrap {
+        width: 100%;
+        position: relative;
+        background: var(--light-cyan);
+        border: 1.5px dashed var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .food-img-wrap::before {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+      }
+      .food-img-wrap img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .food-img-wrap .food-ph {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+      }
+      .food-img-wrap img:not([src=""]) + .food-ph {
+        display: none;
+      }
+      .food-name {
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .food-price {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--blue);
+        background: rgba(125, 83, 222, 0.12);
+        border-radius: 99px;
+        padding: 2px 8px;
+      }
+      .pet-hint {
+        font-size: 11px;
+        color: var(--muted);
+        text-align: center;
+        margin-top: 12px;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 4 — DAFTAR TUGAS
+  ═══════════════════════════════════════════ */
+      #screen-tasks {
+        padding: 0 0 80px;
+      }
+      .cal-ribbon {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 12px 20px 0;
+      }
+      .cal-ribbon::-webkit-scrollbar {
+        display: none;
+      }
+      .cal-day {
+        min-width: 48px;
+        height: 60px;
+        border-radius: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid var(--border);
+        background: var(--light-cyan);
+      }
+      .cal-day-name {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      .cal-day-num {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--cream);
+      }
+      .cal-day.active {
+        background: linear-gradient(135deg, var(--slate-blue), var(--white));
+        border-color: transparent;
+      }
+      .cal-day.active .cal-day-name,
+      .cal-day.active .cal-day-num {
+        color: #fff;
+      }
+
+      .task-list {
+        padding: 12px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .task-card-full {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .task-card-head {
+        padding: 14px 16px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .task-due {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .task-title {
+        font-size: 16px;
+        font-weight: 800;
+        margin-top: 4px;
+        color: var(--cream);
+      }
+      .task-rewards {
+        display: flex;
+        gap: 6px;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+      .rew-xp {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--frosted-blue);
+      }
+      .rew-cookie {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--warm-amber);
+      }
+
+      .task-progress-row {
+        padding: 0 16px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .task-progress-bar {
+        flex: 1;
+        height: 6px;
+      }
+      .task-progress-fill {
+        background: linear-gradient(90deg, var(--green), #18e870);
+      }
+      .task-pct {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .task-body {
+        padding: 0 16px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .sub-label {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--muted);
+        letter-spacing: 1px;
+      }
+      .subtask-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        color: var(--cream);
+      }
+      .subtask-cb {
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+        border: 2px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .subtask-cb.done {
+        background: var(--green);
+        border-color: var(--green);
+      }
+      .subtask-cb.done::after {
+        content: "✓";
+        font-size: 11px;
+        color: #fff;
+        font-weight: 800;
+      }
+      .subtask-row.done-row .subtask-text {
+        text-decoration: line-through;
+        color: var(--muted);
+      }
+      .add-sub-btn {
+        background: none;
+        border: 1px dashed var(--border);
+        color: var(--blue);
+        border-radius: 10px;
+        padding: 8px;
+        font-family: "Nunito", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .add-sub-btn:hover {
+        background: rgba(125, 83, 222, 0.05);
+      }
+      .add-task-btn {
+        margin: 0 20px;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 14px;
+        background: linear-gradient(135deg, var(--neon-ice), var(--slate-blue));
+        color: #fff;
+        font-weight: 800;
+        text-align: center;
+        cursor: pointer;
+        border: none;
+        font-family: "Nunito", sans-serif;
+        box-shadow: 0 4px 16px rgba(125, 83, 222, 0.35);
+        transition: all 0.2s;
+      }
+      .add-task-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 5 — TAMBAH TUGAS
+  ═══════════════════════════════════════════ */
+      #screen-add-task {
+        padding: 0 0 80px;
+      }
+      .form-section {
+        padding: 12px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .form-label {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--muted);
+        letter-spacing: 1.5px;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .form-label svg {
+        width: 14px;
+        height: 14px;
+      }
+      .date-time-row {
+        display: flex;
+        gap: 10px;
+      }
+      .date-time-row .input-field {
+        flex: 1;
+      }
+      .form-actions {
+        display: flex;
+        gap: 10px;
+        padding: 0 20px;
+        margin-top: 8px;
+      }
+      .form-actions .btn {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+      }
+      .subtask-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 6 & 7 — MODE FOKUS
+  ═══════════════════════════════════════════ */
+      #screen-focus,
+      #screen-dnd {
+        padding: 0 0 80px;
+        background: linear-gradient(
+          180deg,
+          var(--white) 0%,
+          var(--alice-blue) 100%
+        );
+      }
+      #screen-dnd {
+        background: radial-gradient(
+          ellipse at 50% 0%,
+          rgba(52, 246, 242, 0.1) 0%,
+          var(--alice-blue) 50%
+        );
+      }
+      .focus-header,
+      .dnd-header {
+        background: linear-gradient(135deg, var(--white), var(--alice-blue));
+        padding: 16px 20px 20px;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+      }
+      .focus-title {
+        font-family: "Cinzel", serif;
+        font-size: 22px;
+        color: var(--blue);
+      }
+      .time-picker-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 24px 20px;
+      }
+      .time-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .time-col-label {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      /* --- MODIFIKASI: Menambahkan properti SCROLL SNAP CSS --- */
+      .time-val-wrap {
+        position: relative;
+        height: 96px;
+        overflow-y: auto; /* Scroll vertikal */
+        overflow-x: hidden;
+        width: 64px;
+        scroll-snap-type: y mandatory; /* Memaksa scroll berhenti pas di tengah */
+        scroll-behavior: smooth;
+        scrollbar-width: none; /* Sembunyikan scrollbar di Firefox */
+      }
+      .time-val-wrap::-webkit-scrollbar {
+        display: none; /* Sembunyikan scrollbar di Chrome/Safari */
+      }
+      .time-val-list {
+        display: flex;
+        flex-direction: column;
+        padding: 32px 0; /* Memberi ruang agar item pertama & terakhir bisa mencapai tengah */
+      }
+      .time-val {
+        height: 32px;
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--muted);
+        cursor: pointer;
+        user-select: none;
+        transition:
+          color 0.15s,
+          font-size 0.15s;
+        scroll-snap-align: center; /* Item akan sejajar persis di tengah wrap saat di-scroll */
+      }
+      /* -------------------------------------------------------- */
+
+      .time-val.selected {
+        color: var(--cream);
+        font-size: 36px;
+      }
+      .time-dot {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--muted);
+        padding-top: 20px;
+      }
+      .time-highlight {
+        position: absolute;
+        top: 32px;
+        left: 0;
+        right: 0;
+        height: 32px;
+        background: rgba(125, 83, 222, 0.12);
+        border-radius: 8px;
+        pointer-events: none; /* Jangan halangi scroll event */
+      }
+      .quick-presets {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        padding: 0 20px;
+      }
+      .preset-btn {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--white);
+        border: 2px solid var(--border);
+        color: var(--cream);
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: "Nunito", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow);
+      }
+      .preset-btn:hover {
+        border-color: var(--neon-ice);
+        color: var(--blue);
+      }
+      .start-btn {
+        margin: 24px 20px 0;
+        display: block;
+        background: linear-gradient(135deg, var(--neon-ice), var(--slate-blue));
+        border: none;
+        border-radius: 16px;
+        padding: 16px;
+        font-family: "Cinzel", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+        letter-spacing: 2px;
+        box-shadow: 0 6px 24px rgba(125, 83, 222, 0.4);
+        transition: all 0.2s;
+      }
+      .start-btn:hover {
+        transform: translateY(-2px);
+      }
+      .dnd-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 64, 64, 0.15);
+        border: 1px solid rgba(255, 64, 64, 0.3);
+        border-radius: 99px;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--red);
+        margin: 16px 0 8px;
+      }
+      .dnd-status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--red);
+        animation: pulse-red 1.2s infinite;
+      }
+      @keyframes pulse-red {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.4;
+          transform: scale(0.7);
+        }
+      }
+      .timer-circle-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+      .timer-ref {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+      .timer-svg {
+        width: 200px;
+        height: 200px;
+      }
+      .timer-bg {
+        fill: none;
+        stroke: var(--light-cyan);
+        stroke-width: 10;
+      }
+      .timer-prog {
+        fill: none;
+        stroke: var(--blue);
+        stroke-width: 10;
+        stroke-linecap: round;
+        stroke-dasharray: 565;
+        stroke-dashoffset: 0;
+        transform-origin: 50% 50%;
+        transform: rotate(-90deg);
+        transition: stroke-dashoffset 1s linear;
+      }
+      .timer-digits {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--cream);
+        letter-spacing: 2px;
+      }
+      .dnd-controls {
+        display: flex;
+        gap: 12px;
+        padding: 0 20px;
+      }
+      .dnd-controls .btn {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+      }
+      .lock-toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px 0;
+      }
+      .lock-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--cream);
+      }
+      .toggle-wrap {
+        width: 44px;
+        height: 24px;
+        border-radius: 12px;
+        background: var(--green);
+        position: relative;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .toggle-wrap.off {
+        background: var(--muted2);
+      }
+      .toggle-knob {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #fff;
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        transition: all 0.2s;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      }
+      .toggle-wrap.off .toggle-knob {
+        right: auto;
+        left: 2px;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 8 — ROOM
+  ═══════════════════════════════════════════ */
+      #screen-room {
+        padding: 0 0 80px;
+      }
+      .room-online-count {
+        font-size: 12px;
+        font-weight: 700;
+        background: rgba(34, 201, 122, 0.15);
+        color: var(--green);
+        border-radius: 99px;
+        padding: 4px 10px;
+      }
+      .friend-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 12px 20px;
+      }
+      .friend-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .friend-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .friend-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--cream);
+      }
+      .friend-lvl {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .status-label {
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 99px;
+        padding: 3px 10px;
+      }
+      .status-label.online {
+        background: rgba(34, 201, 122, 0.15);
+        color: var(--green);
+      }
+      .status-label.offline {
+        background: rgba(107, 114, 128, 0.15);
+        color: var(--offline);
+      }
+      .add-friend-btn {
+        margin: 0 20px 12px;
+        border-radius: 14px;
+        padding: 12px;
+        background: var(--light-cyan);
+        border: 1px dashed var(--border);
+        color: var(--blue);
+        font-weight: 800;
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        font-family: "Nunito", sans-serif;
+        transition: all 0.2s;
+      }
+      .room-actions {
+        display: flex;
+        gap: 12px;
+        padding: 0 20px;
+      }
+      .room-actions .btn {
+        flex: 1;
+        text-align: center;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 9 — ROOM GROUP
+  ═══════════════════════════════════════════ */
+      #screen-room-group {
+        padding: 0 0 80px;
+      }
+      .room-group-header {
+        background: linear-gradient(135deg, var(--white), var(--alice-blue));
+        border-bottom: 1px solid var(--border);
+        padding: 16px 20px 20px;
+        text-align: center;
+      }
+      .room-group-title {
+        font-family: "Cinzel", serif;
+        font-size: 24px;
+        color: var(--blue);
+      }
+      .participant-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 16px 20px;
+      }
+      .participant-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        box-shadow: var(--shadow);
+      }
+      .toolbar {
+        display: flex;
+        gap: 8px;
+        padding: 8px 20px;
+        background: var(--white);
+        border-top: 1px solid var(--border);
+      }
+      .tool-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        background: var(--light-cyan);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: var(--blue);
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .tool-btn:hover {
+        border-color: var(--muted);
+      }
+      .tool-btn svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--blue);
+      }
+      .tool-btn.share {
+        background: linear-gradient(135deg, var(--green), #18a060);
+        border-color: transparent;
+        color: white;
+      }
+      .tool-btn.share svg {
+        stroke: white;
+      }
+      .end-btn {
+        background: linear-gradient(135deg, var(--red), #cc2020);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-family: "Nunito", sans-serif;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 10 — PROFIL
+  ═══════════════════════════════════════════ */
+      #screen-profile {
+        padding: 0 0 80px;
+      }
+      .profile-header {
+        background: linear-gradient(135deg, var(--white), var(--alice-blue));
+        border-bottom: 1px solid var(--border);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        position: relative;
+      }
+      .profile-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--neon-ice), var(--slate-blue));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 800;
+        color: #fff;
+        box-shadow: 0 4px 20px rgba(125, 83, 222, 0.4);
+        flex-shrink: 0;
+      }
+      .profile-name {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--cream);
+      }
+      .profile-badges {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+      }
+      .gear-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--light-cyan);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px;
+        cursor: pointer;
+        color: var(--muted);
+      }
+
+      .stats-row {
+        display: flex;
+        gap: 1px;
+        background: var(--border);
+        margin: 16px 20px;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .stat-box {
+        flex: 1;
+        background: var(--white);
+        padding: 14px 10px;
+        text-align: center;
+      }
+      .stat-num {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--blue);
+      }
+      .stat-label {
+        font-size: 10px;
+        color: var(--muted);
+        font-weight: 700;
+        margin-top: 2px;
+      }
+
+      .chart-section {
+        padding: 0 20px 16px;
+      }
+      .chart-title {
+        font-size: 14px;
+        font-weight: 800;
+        margin-bottom: 12px;
+        color: var(--cream);
+      }
+      .bar-chart {
+        display: flex;
+        gap: 6px;
+        align-items: flex-end;
+        height: 80px;
+      }
+      .bar-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .bar-block {
+        width: 100%;
+        border-radius: 6px 6px 0 0;
+        background: linear-gradient(
+          to top,
+          var(--frosted-blue),
+          var(--neon-ice)
+        );
+        min-height: 4px;
+        transition: height 0.4s ease;
+      }
+      .bar-day {
+        font-size: 9px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .bar-avg {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+
+      /* ── Achievements section ── */
+      .achievements-section {
+        padding: 0 20px 16px;
+      }
+      .achievements-title {
+        font-size: 14px;
+        font-weight: 800;
+        margin-bottom: 12px;
+        color: var(--cream);
+      }
+      .badges-row {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+      }
+      .badges-row::-webkit-scrollbar {
+        display: none;
+      }
+
+      .achievement-badge {
+        min-width: 80px;
+        max-width: 80px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 10px 8px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        box-shadow: var(--shadow);
+      }
+      .achievement-badge.locked {
+        opacity: 0.4;
+        border-style: dashed;
+      }
+      .badge-img-wrap {
+        width: 100%;
+        position: relative;
+        background: var(--light-cyan);
+        border: 1.5px dashed var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .badge-img-wrap::before {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+      }
+      .badge-img-wrap img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .badge-img-wrap .badge-ph {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .badge-img-wrap img:not([src=""]) + .badge-ph {
+        display: none;
+      }
+      .badge-name {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      /* ═══════════════════════════════════════════
+      SCREEN 11 — LEADERBOARD
+  ═══════════════════════════════════════════ */
+      #screen-leaderboard {
+        padding: 0 0 80px;
+      }
+
+      .lb-header {
+        background: linear-gradient(
+          160deg,
+          var(--white) 0%,
+          var(--alice-blue) 100%
+        );
+        border-bottom: 1px solid var(--border);
+        padding: 16px 20px 24px;
+        text-align: center;
+        position: relative;
+      }
+      .lb-back {
+        position: absolute;
+        top: 18px;
+        left: 20px;
+        background: var(--light-cyan);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 12px;
+        color: var(--blue);
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .lb-title {
+        font-family: "Cinzel", serif;
+        font-size: 22px;
+        color: var(--blue);
+        letter-spacing: 1px;
+      }
+      .lb-subtitle {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+        font-weight: 600;
+      }
+
+      /* Filter tabs */
+      .lb-tabs {
+        display: flex;
+        gap: 0;
+        margin: 0 20px 0;
+        background: var(--light-cyan);
+        border-radius: 12px;
+        padding: 4px;
+        border: 1px solid var(--border);
+      }
+      .lb-tab {
+        flex: 1;
+        text-align: center;
+        padding: 8px 0;
+        font-size: 12px;
+        font-weight: 800;
+        border-radius: 9px;
+        cursor: pointer;
+        color: var(--muted);
+        transition: all 0.2s;
+      }
+      .lb-tab.active {
+        background: linear-gradient(135deg, var(--neon-ice), var(--slate-blue));
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(125, 83, 222, 0.4);
+      }
+
+      /* Podium Top 3 */
+      .podium-wrap {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 0;
+        padding: 20px 16px 8px;
+      }
+      .podium-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+      }
+      .podium-avatar-wrap {
+        position: relative;
+      }
+      .podium-avatar {
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+      }
+      .podium-crown {
+        position: absolute;
+        top: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 20px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+      }
+      .podium-ring-1 {
+        padding: 3px;
+        background: conic-gradient(#ffd700, #ffa500, #ffd700, #ffa500, #ffd700);
+        border-radius: 50%;
+      }
+      .podium-ring-2 {
+        padding: 3px;
+        background: conic-gradient(#c0c0c0, #a0a0a0, #c0c0c0);
+        border-radius: 50%;
+      }
+      .podium-ring-3 {
+        padding: 3px;
+        background: conic-gradient(#cd7f32, #a05a20, #cd7f32);
+        border-radius: 50%;
+      }
+      .podium-name {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--cream);
+        text-align: center;
+      }
+      .podium-pts {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--blue);
+        background: rgba(125, 83, 222, 0.12);
+        border: 1px solid rgba(125, 83, 222, 0.3);
+        border-radius: 99px;
+        padding: 3px 10px;
+      }
+      .podium-block {
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Cinzel", serif;
+        font-size: 22px;
+        font-weight: 800;
+        color: rgba(0, 0, 0, 0.6);
+      }
+      .podium-block-1 {
+        background: linear-gradient(to top, #b8860b, #ffd700);
+        height: 80px;
+        box-shadow: 0 -4px 16px rgba(255, 215, 0, 0.3);
+      }
+      .podium-block-2 {
+        background: linear-gradient(to top, #808080, #c0c0c0);
+        height: 60px;
+        box-shadow: 0 -4px 12px rgba(192, 192, 192, 0.2);
+      }
+      .podium-block-3 {
+        background: linear-gradient(to top, #8b4513, #cd7f32);
+        height: 44px;
+        box-shadow: 0 -4px 10px rgba(205, 127, 50, 0.2);
+      }
+
+      /* Rank list */
+      .lb-list {
+        padding: 8px 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .lb-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px 14px;
+        transition: all 0.2s;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .lb-row.me {
+        border-color: var(--neon-ice);
+        background: linear-gradient(
+          135deg,
+          rgba(52, 246, 242, 0.08),
+          var(--white)
+        );
+      }
+      .lb-row.me::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--neon-ice);
+      }
+      .lb-rank-num {
+        width: 28px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+      .lb-rank-num.top3 {
+        color: var(--blue);
+      }
+      .lb-row-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 800;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .lb-row-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .lb-row-name {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--cream);
+      }
+      .lb-row-meta {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .lb-row-pts {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+        flex-shrink: 0;
+      }
+      .lb-pts-num {
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--blue);
+      }
+      .lb-pts-label {
+        font-size: 10px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .lb-pts-bar-wrap {
+        height: 3px;
+        width: 60px;
+        background: var(--light-cyan);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-top: 2px;
+      }
+      .lb-pts-bar {
+        height: 100%;
+        border-radius: 99px;
+        background: linear-gradient(
+          90deg,
+          var(--frosted-blue),
+          var(--neon-ice)
+        );
+        transition: width 0.6s ease;
+      }
+
+      /* My rank sticky footer */
+      .my-rank-bar {
+        margin: 12px 20px 0;
+        background: linear-gradient(
+          135deg,
+          rgba(52, 246, 242, 0.12),
+          rgba(125, 83, 222, 0.08)
+        );
+        border: 1px solid var(--neon-ice);
+        border-radius: 14px;
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: var(--shadow);
+      }
+      .my-rank-badge {
+        background: linear-gradient(135deg, var(--neon-ice), var(--slate-blue));
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-family: "Cinzel", serif;
+        font-size: 18px;
+        font-weight: 800;
+        color: #fff;
+        text-align: center;
+        min-width: 44px;
+        box-shadow: 0 2px 10px rgba(125, 83, 222, 0.4);
+      }
+      .my-rank-info {
+        flex: 1;
+      }
+      .my-rank-label {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .my-rank-name {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--cream);
+        margin-top: 1px;
+      }
+      .my-rank-pts {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--blue);
+        margin-top: 1px;
+      }
+
+      /* ── Toast ── */
+      .toast {
+        position: absolute;
+        bottom: 90px;
+        left: 20px;
+        right: 20px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--cream);
+        z-index: 100;
+        box-shadow: var(--shadow);
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.3s;
+        pointer-events: none;
+      }
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      @keyframes fadeSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .screen.active > * {
+        animation: fadeSlideIn 0.3s ease forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone">
+      <div class="status-bar"></div>
+
+      <div class="screens" id="screens">
+        <div class="screen active" id="screen-login">
+          <div class="login-art">
+            <div class="wave"></div>
+            <div class="logo-mark">KARSA</div>
+            <div class="logo-sub">FOKUS · TUMBUH · BERSAMA</div>
+          </div>
+          <div class="login-card">
+            <h2>Selamat Datang! 👋</h2>
+            <p>Masuk dan lanjutkan produktifitasmu hari ini</p>
+            <input class="input-field" type="email" placeholder="Email" />
+            <input class="input-field" type="password" placeholder="Password" />
+            <div class="forgot-link">Forgot your password?</div>
+            <button
+              class="btn btn-primary"
+              style="width: 100%"
+              onclick="goTo('home')"
+            >
+              Sign in
+            </button>
+            <div class="divider">— atau —</div>
+            <div class="register-link">
+              Belum punya akun? <span>Create new account</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-home">
+          <div class="home-header">
+            <div style="display: flex; align-items: center; gap: 12px">
+              <div class="avatar-circle">Y</div>
+              <div>
+                <div class="user-greet">Selamat datang,</div>
+                <div class="user-name">Yanto!</div>
+              </div>
+            </div>
+            <div class="reward-badge">⭐ <span>20</span></div>
+          </div>
+
+          <div class="level-bar-wrap">
+            <div class="level-label">Lv.10 — Sang Penakluk</div>
+            <div class="progress-wrap level-bar" style="height: 6px">
+              <div
+                class="progress-fill level-fill"
+                style="width: 68%; height: 6px"
+              ></div>
+            </div>
+          </div>
+
+          <div class="img-placeholder pet-showcase">
+            <img src="img\dino.png" alt="Virtual Pet Zeno" />
+            <div class="img-label">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              Gambar Pet
+            </div>
+          </div>
+
+          <div class="section-header">
+            <div class="section-title">Daftar Tugas</div>
+            <div class="see-all" onclick="goTo('tasks')">Lihat semua →</div>
+          </div>
+
+          <div class="task-cards">
+            <div class="task-card-mini urgent">
+              <div>
+                <div class="task-badge-urgent">Hari Ini</div>
+                <div class="task-name">Tugas 1</div>
+                <div class="task-meta-small">⏱ 15.30 WIB — Tugas Selesai</div>
+              </div>
+              <div class="task-reward">
+                <div class="reward-pill">⭐ +3</div>
+                <div class="reward-pill">🍪 +5</div>
+              </div>
+            </div>
+            <div class="task-card-mini normal">
+              <div>
+                <div class="task-badge-normal">Besok</div>
+                <div class="task-name">Tugas 2</div>
+                <div class="task-meta-small">⏱ 12.00 WIB — Tugas Selesai</div>
+              </div>
+              <div class="task-reward">
+                <div class="reward-pill">⭐ +5</div>
+                <div class="reward-pill">🍪 +8</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-pet">
+          <div class="pet-page-header">
+            <div class="pet-name-row">
+              <div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--muted);
+                    font-weight: 700;
+                    letter-spacing: 1px;
+                  "
+                >
+                  TEMAN VIRTUALMU
+                </div>
+                <div class="pet-name">Zeno</div>
+                <div class="pet-xp-hint">
+                  Beri Zeno makan untuk upgrade level!
+                </div>
+              </div>
+              <div class="pet-level-badge">Level 11</div>
+            </div>
+            <div class="progress-wrap pet-xp-bar">
+              <div
+                class="progress-fill pet-xp-fill"
+                id="pet-xp-fill"
+                style="width: 55%; height: 8px"
+              ></div>
+            </div>
+          </div>
+
+          <div class="img-placeholder pet-visual">
+            <img src="img\dino.png" alt="Zeno the pet" />
+            <div class="img-label">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              Gambar Pet Zeno
+            </div>
+          </div>
+
+          <div class="cookies-bar">
+            <div>
+              <div class="cookies-value">
+                🍪 <span id="cookies-val">20</span> Cookies Tersedia
+              </div>
+            </div>
+          </div>
+
+          <div class="food-section">
+            <div class="section-title">DAFTAR MAKANAN</div>
+            <div class="food-grid">
+              <div class="food-item" onclick="feedPet(5, 'Cyber-Berry')">
+                <div class="food-img-wrap">
+                  <img src="img\ceriberi.png" alt="" />
+                  <div class="food-ph">🫐</div>
+                </div>
+                <div class="food-name">CYBER-BERRY</div>
+                <div class="food-price">🍪 5</div>
+              </div>
+              <div class="food-item" onclick="feedPet(10, 'Bio-Kelp')">
+                <div class="food-img-wrap">
+                  <img src="img\biokelp.png" alt="" />
+                  <div class="food-ph">🌿</div>
+                </div>
+                <div class="food-name">BIO-KELP</div>
+                <div class="food-price">🍪 10</div>
+              </div>
+              <div class="food-item" onclick="feedPet(20, 'Crystal-Feed')">
+                <div class="food-img-wrap">
+                  <img src="img\feedemas.png" alt="" />
+                  <div class="food-ph">💎</div>
+                </div>
+                <div class="food-name">CRYSTAL-FEED</div>
+                <div class="food-price">🍪 20</div>
+              </div>
+            </div>
+            <div class="pet-hint">
+              Selesaikan lebih banyak tugas untuk mendapatkan cookies 🍪
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-tasks">
+          <div class="page-header">
+            Daftar Tugas
+            <div
+              style="
+                font-size: 13px;
+                color: var(--muted);
+                font-family: &quot;Nunito&quot;, sans-serif;
+              "
+            >
+              Mei 2026
+            </div>
+          </div>
+          <div class="cal-ribbon" id="cal-ribbon"></div>
+
+          <div class="task-list" id="task-list-container"></div>
+
+          <button class="add-task-btn" onclick="goTo('add-task')">
+            + Tambah Tugas
+          </button>
+        </div>
+
+        <div class="screen" id="screen-add-task">
+          <div class="page-header" style="padding: 16px 20px">
+            <button
+              onclick="goTo('tasks')"
+              style="
+                background: none;
+                border: none;
+                color: var(--blue);
+                font-size: 18px;
+                cursor: pointer;
+              "
+            >
+              ←
+            </button>
+            Tambah Tugas
+            <div style="width: 24px"></div>
+          </div>
+          <div class="form-section">
+            <div>
+              <div class="form-label">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="5" y="2" width="14" height="20" rx="2" />
+                  <path d="M9 7h6M9 11h6M9 15h4" />
+                </svg>
+                NAMA TUGAS
+              </div>
+              <input
+                class="input-field"
+                type="text"
+                id="new-task-name"
+                placeholder="Masukkan nama tugas..."
+              />
+            </div>
+            <div>
+              <div class="form-label">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v6l4 2" />
+                </svg>
+                DEADLINE
+              </div>
+              <div class="date-time-row">
+                <input class="input-field" type="date" id="new-task-date" />
+                <input class="input-field" type="time" id="new-task-time" />
+              </div>
+            </div>
+            <div>
+              <div class="form-label">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                SUB-TUGAS
+              </div>
+              <div class="subtask-inputs" id="new-subtasks">
+                <input
+                  class="input-field"
+                  type="text"
+                  placeholder="Sub-tugas 1..."
+                />
+                <input
+                  class="input-field"
+                  type="text"
+                  placeholder="Sub-tugas 2..."
+                />
+              </div>
+              <button
+                class="add-sub-btn"
+                style="margin-top: 8px; width: 100%"
+                onclick="addNewSubInput()"
+              >
+                + Tambah Sub-Tugas
+              </button>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-red" onclick="goTo('tasks')">← BATAL</button>
+            <button class="btn btn-green" onclick="saveTask()">SIMPAN</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-focus">
+          <div class="focus-header">
+            <div class="focus-title">Mode Fokus!</div>
+          </div>
+          <div class="time-picker-wrap">
+            <div class="time-col">
+              <div class="time-col-label">Jam</div>
+              <div class="time-val-wrap" id="hour-wrap">
+                <div class="time-highlight"></div>
+                <div class="time-val-list" id="hour-list"></div>
+              </div>
+            </div>
+            <div class="time-dot">:</div>
+            <div class="time-col">
+              <div class="time-col-label">Menit</div>
+              <div class="time-val-wrap" id="min-wrap">
+                <div class="time-highlight"></div>
+                <div class="time-val-list" id="min-list"></div>
+              </div>
+            </div>
+            <div class="time-dot">:</div>
+            <div class="time-col">
+              <div class="time-col-label">Detik</div>
+              <div class="time-val-wrap" id="sec-wrap">
+                <div class="time-highlight"></div>
+                <div class="time-val-list" id="sec-list"></div>
+              </div>
+            </div>
+          </div>
+          <div class="quick-presets">
+            <button class="preset-btn" onclick="setPreset(0, 30, 0)">
+              00.30.00
+            </button>
+            <button class="preset-btn" onclick="setPreset(1, 0, 0)">
+              01.00.00
+            </button>
+            <button class="preset-btn" onclick="setPreset(2, 0, 0)">
+              02.00.00
+            </button>
+          </div>
+          <button class="start-btn" onclick="startDND()">MULAI</button>
+        </div>
+
+        <div class="screen" id="screen-dnd">
+          <div class="dnd-header">
+            <div class="focus-title">Mode Fokus!</div>
+          </div>
+          <div style="display: flex; justify-content: center">
+            <div class="dnd-status-badge">
+              <div class="dnd-status-dot"></div>
+              DND AKTIF!
+            </div>
+          </div>
+          <div class="timer-circle-wrap">
+            <div class="timer-ref" id="timer-ref">1j 30m</div>
+            <div style="position: relative; width: 200px; height: 200px">
+              <svg class="timer-svg" viewBox="0 0 200 200">
+                <circle class="timer-bg" cx="100" cy="100" r="90" />
+                <circle
+                  class="timer-prog"
+                  id="timer-prog"
+                  cx="100"
+                  cy="100"
+                  r="90"
+                />
+              </svg>
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <div class="timer-digits" id="timer-digits">01:30:00</div>
+              </div>
+            </div>
+          </div>
+          <div class="dnd-controls">
+            <button
+              class="btn btn-ghost"
+              id="pause-btn"
+              onclick="togglePause()"
+            >
+              ⏸ JEDA
+            </button>
+            <button class="btn btn-red" onclick="stopDND()">⏹ SELESAI</button>
+          </div>
+          <div class="lock-toggle-row">
+            <div class="lock-label">🔒 Kunci Aplikasi</div>
+            <div
+              style="position: relative; width: 44px; height: 24px"
+              onclick="toggleLock(this)"
+            >
+              <div class="toggle-wrap" id="lock-toggle"></div>
+              <div class="toggle-knob" id="lock-knob"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-room">
+          <div class="page-header">
+            Room
+            <div class="room-online-count">🟢 3 online</div>
+          </div>
+          <div
+            style="
+              padding: 4px 20px;
+              font-size: 13px;
+              font-weight: 700;
+              color: var(--muted);
+            "
+          >
+            Daftar Teman
+          </div>
+          <div class="friend-grid">
+            <div class="friend-card">
+              <div
+                class="friend-avatar"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    var(--slate-blue),
+                    var(--deep-purple)
+                  );
+                "
+              >
+                A
+              </div>
+              <div class="friend-name">Andi</div>
+              <div class="friend-lvl">Lv. 20</div>
+              <div class="status-label online">online</div>
+            </div>
+            <div class="friend-card">
+              <div
+                class="friend-avatar"
+                style="
+                  background: linear-gradient(135deg, var(--green), #13804d);
+                "
+              >
+                B
+              </div>
+              <div class="friend-name">Budi</div>
+              <div class="friend-lvl">Lv. 8</div>
+              <div class="status-label online">online</div>
+            </div>
+            <div class="friend-card">
+              <div
+                class="friend-avatar"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    var(--warm-amber),
+                    #b45309
+                  );
+                "
+              >
+                S
+              </div>
+              <div class="friend-name">Sari</div>
+              <div class="friend-lvl">Lv. 15</div>
+              <div class="status-label online">online</div>
+            </div>
+            <div class="friend-card">
+              <div
+                class="friend-avatar"
+                style="background: linear-gradient(135deg, var(--red), #991b1b)"
+              >
+                R
+              </div>
+              <div class="friend-name">Rudi</div>
+              <div class="friend-lvl">Lv. 13</div>
+              <div class="status-label offline">offline</div>
+            </div>
+          </div>
+          <div class="add-friend-btn">+ Tambah Teman</div>
+
+          <div
+            onclick="goTo('leaderboard')"
+            style="
+              margin: 0 20px 12px;
+              background: linear-gradient(
+                135deg,
+                rgba(125, 83, 222, 0.12),
+                rgba(52, 246, 242, 0.1)
+              );
+              border: 1px solid var(--border);
+              border-radius: 14px;
+              padding: 14px 16px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              transition: all 0.2s;
+            "
+          >
+            <div style="font-size: 28px; line-height: 1">🏆</div>
+            <div style="flex: 1">
+              <div
+                style="font-size: 13px; font-weight: 800; color: var(--cream)"
+              >
+                Lihat Rank
+              </div>
+              <div
+                style="
+                  font-size: 11px;
+                  color: var(--muted);
+                  margin-top: 2px;
+                  font-weight: 600;
+                "
+              >
+                Cek posisimu di papan peringkat global!
+              </div>
+            </div>
+            <div style="font-size: 18px; color: var(--blue)">›</div>
+          </div>
+
+          <div class="room-actions">
+            <button class="btn btn-ghost" onclick="goTo('room-group')">
+              Gabung Dengan Teman
+            </button>
+            <button class="btn btn-green" onclick="goTo('room-group')">
+              Buat Ruangan
+            </button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-room-group">
+          <div class="room-group-header">
+            <div
+              style="
+                font-size: 12px;
+                color: var(--muted);
+                font-weight: 700;
+                letter-spacing: 2px;
+              "
+            >
+              SESI AKTIF
+            </div>
+            <div class="room-group-title">ROOM 1</div>
+          </div>
+          <div class="participant-grid">
+            <div class="participant-card">
+              <div
+                class="friend-avatar"
+                style="
+                  width: 60px;
+                  height: 60px;
+                  font-size: 26px;
+                  background: linear-gradient(135deg, var(--green), #13804d);
+                "
+              >
+                B
+              </div>
+              <div class="friend-name">Budi</div>
+            </div>
+            <div class="participant-card">
+              <div
+                class="friend-avatar"
+                style="
+                  width: 60px;
+                  height: 60px;
+                  font-size: 26px;
+                  background: linear-gradient(
+                    135deg,
+                    var(--slate-blue),
+                    var(--deep-purple)
+                  );
+                "
+              >
+                A
+              </div>
+              <div class="friend-name">Andi</div>
+            </div>
+            <div class="participant-card">
+              <div
+                class="friend-avatar"
+                style="
+                  width: 60px;
+                  height: 60px;
+                  font-size: 26px;
+                  background: linear-gradient(
+                    135deg,
+                    var(--warm-amber),
+                    #b45309
+                  );
+                "
+              >
+                S
+              </div>
+              <div class="friend-name">Sari</div>
+            </div>
+            <div class="participant-card">
+              <div
+                class="friend-avatar"
+                style="
+                  width: 60px;
+                  height: 60px;
+                  font-size: 26px;
+                  background: linear-gradient(
+                    135deg,
+                    var(--neon-ice),
+                    var(--slate-blue)
+                  );
+                "
+              >
+                Y
+              </div>
+              <div class="friend-name">Yanto</div>
+            </div>
+          </div>
+          <div class="toolbar">
+            <div class="tool-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" />
+                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" /></svg
+              >Mute
+            </div>
+            <div class="tool-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M23 7l-7 5 7 5V7z" />
+                <rect x="1" y="5" width="15" height="14" rx="2" /></svg
+              >Stop Video
+            </div>
+            <div class="tool-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path
+                  d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                /></svg
+              >Chat
+            </div>
+            <div class="tool-btn share">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path
+                  d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"
+                /></svg
+              >Share
+            </div>
+            <button class="end-btn" onclick="goTo('room')">End</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-profile">
+          <div class="profile-header">
+            <div class="profile-avatar">Y</div>
+            <div>
+              <div class="profile-name">YANTO REYNALDI</div>
+              <div class="profile-badges">
+                <div class="chip" style="color: var(--blue2)">🏆 Level 10</div>
+                <div class="chip" style="color: var(--neon-ice)">🔥 7 hari</div>
+              </div>
+            </div>
+            <div class="gear-btn">⚙️</div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat-box">
+              <div class="stat-num">15</div>
+              <div class="stat-label">Tugas Selesai</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num" style="color: var(--green)">32j</div>
+              <div class="stat-label">Waktu Fokus</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num" style="color: var(--blue2)">30</div>
+              <div class="stat-label">Poin Dikumpulkan</div>
+            </div>
+          </div>
+
+          <div class="chart-section">
+            <div class="chart-title">📈 Waktu Fokus Mingguan</div>
+            <div class="bar-chart">
+              <div class="bar-col">
+                <div class="bar-block" style="height: 40px"></div>
+                <div class="bar-day">Sen</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-block" style="height: 56px"></div>
+                <div class="bar-day">Sel</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-block" style="height: 48px"></div>
+                <div class="bar-day">Rab</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-block" style="height: 64px"></div>
+                <div class="bar-day">Kam</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-block" style="height: 32px"></div>
+                <div class="bar-day">Jum</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-block" style="height: 24px"></div>
+                <div class="bar-day">Sab</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-block" style="height: 16px"></div>
+                <div class="bar-day">Min</div>
+              </div>
+            </div>
+            <div class="bar-avg">Rata-rata: 3,9 jam/hari minggu ini</div>
+          </div>
+
+          <div class="achievements-section">
+            <div class="achievements-title">🎖️ Pencapaian</div>
+            <div class="badges-row">
+              <div class="achievement-badge">
+                <div class="badge-img-wrap">
+                  <img src="img\api (1).png" alt="Streak 7 hari" />
+                  <div class="badge-ph">🔥</div>
+                </div>
+                <div class="badge-name">Streak 7 hari</div>
+              </div>
+              <div class="achievement-badge">
+                <div class="badge-img-wrap">
+                  <img src="img\pedang.png" alt="Pedang Scio" />
+                  <div class="badge-ph">⚔️</div>
+                </div>
+                <div class="badge-name">Pedang Scio</div>
+              </div>
+              <div class="achievement-badge">
+                <div class="badge-img-wrap">
+                  <img src="img\bunga.png" alt="Bunga Verilys" />
+                  <div class="badge-ph">🌸</div>
+                </div>
+                <div class="badge-name">Bunga Verilys</div>
+              </div>
+              <div class="achievement-badge locked">
+                <div class="badge-img-wrap">
+                  <img src="" alt="Terkunci" />
+                  <div class="badge-ph">🔒</div>
+                </div>
+                <div class="badge-name">Terkunci</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-leaderboard">
+          <div class="lb-header">
+            <div class="lb-title">Papan Peringkat</div>
+            <div class="lb-subtitle">
+              Berdasarkan total poin yang dikumpulkan
+            </div>
+          </div>
+
+          <div class="podium-wrap" id="podium-wrap">
+            <div class="podium-col">
+              <div class="podium-avatar-wrap">
+                <div class="podium-ring-2">
+                  <div
+                    class="podium-avatar"
+                    style="
+                      width: 52px;
+                      height: 52px;
+                      font-size: 20px;
+                      background: linear-gradient(135deg, #22c97a, #168050);
+                    "
+                  >
+                    S
+                  </div>
+                </div>
+              </div>
+              <div class="podium-name">Sari</div>
+              <div class="podium-pts" id="lb2-pts">45 poin</div>
+              <div class="podium-block podium-block-2">2</div>
+            </div>
+            <div class="podium-col">
+              <div class="podium-avatar-wrap">
+                <div class="podium-crown">👑</div>
+                <div class="podium-ring-1">
+                  <div
+                    class="podium-avatar"
+                    style="
+                      width: 64px;
+                      height: 64px;
+                      font-size: 26px;
+                      background: linear-gradient(
+                        135deg,
+                        var(--white),
+                        var(--frosted-blue)
+                      );
+                    "
+                  >
+                    A
+                  </div>
+                </div>
+              </div>
+              <div class="podium-name">Andi</div>
+              <div class="podium-pts" id="lb1-pts">50 poin</div>
+              <div class="podium-block podium-block-1">1</div>
+            </div>
+            <div class="podium-col">
+              <div class="podium-avatar-wrap">
+                <div class="podium-ring-3">
+                  <div
+                    class="podium-avatar"
+                    style="
+                      width: 48px;
+                      height: 48px;
+                      font-size: 18px;
+                      background: linear-gradient(
+                        135deg,
+                        var(--white),
+                        var(--white)
+                      );
+                    "
+                  >
+                    R
+                  </div>
+                </div>
+              </div>
+              <div class="podium-name">Rudi</div>
+              <div class="podium-pts" id="lb3-pts">40 poin</div>
+              <div class="podium-block podium-block-3">3</div>
+            </div>
+          </div>
+
+          <div class="my-rank-bar">
+            <div class="my-rank-badge" id="my-rank-badge">#4</div>
+            <div class="my-rank-info">
+              <div class="my-rank-label">POSISIMU SAAT INI</div>
+              <div class="my-rank-name">Yanto Reynaldi</div>
+              <div class="my-rank-pts" id="my-rank-pts">30 poin · Lv.10</div>
+            </div>
+            <div style="text-align: right">
+              <div
+                style="font-size: 14px; font-weight: 800; color: var(--blue)"
+              ></div>
+            </div>
+          </div>
+
+          <div class="lb-list" id="lb-list">
+            <div class="lb-row">
+              <div class="lb-rank-num">#5</div>
+              <div
+                class="lb-row-avatar"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    var(--neon-ice),
+                    var(--white)
+                  );
+                "
+              >
+                B
+              </div>
+              <div class="lb-row-info">
+                <div class="lb-row-name">Budi</div>
+                <div class="lb-row-meta">Lv.8 · Petualang</div>
+                <div class="lb-pts-bar-wrap">
+                  <div class="lb-pts-bar" style="width: 14%"></div>
+                </div>
+              </div>
+              <div class="lb-row-pts">
+                <div class="lb-pts-num">20</div>
+                <div class="lb-pts-label">poin</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="bottom-nav" id="bottom-nav">
+        <div class="nav-item active" data-target="home" onclick="goTo('home')">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          Home
+        </div>
+        <div class="nav-item" data-target="pet" onclick="goTo('pet')">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="4" r="2" />
+            <circle cx="18" cy="8" r="2" />
+            <circle cx="20" cy="16" r="2" />
+            <path d="M9 10a5 5 0 00-2 9.9M3.2 14.7A5 5 0 0115 16" />
+          </svg>
+          Pet
+        </div>
+        <div class="nav-item" data-target="tasks" onclick="goTo('tasks')">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M9 11l3 3L22 4" />
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+          </svg>
+          Tugas
+        </div>
+        <div class="nav-item" data-target="focus" onclick="goTo('focus')">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          Fokus
+        </div>
+        <div class="nav-item" data-target="room" onclick="goTo('room')">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+          </svg>
+          Room
+        </div>
+        <div class="nav-item" data-target="profile" onclick="goTo('profile')">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Profil
+        </div>
+      </nav>
+      <div class="toast" id="toast"></div>
+    </div>
+
+    <script>
+      const noNav = ["login", "add-task", "dnd", "room-group"];
+      function goTo(id) {
+        document
+          .querySelectorAll(".screen")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById("screen-" + id).classList.add("active");
+        const navEl = document.getElementById("bottom-nav");
+        navEl.style.display = noNav.includes(id) ? "none" : "flex";
+        document.querySelectorAll(".nav-item").forEach((n) => {
+          n.classList.toggle("active", n.dataset.target === id);
+        });
+        if (id === "tasks") buildCalRibbon();
+      }
+
+      // STATE MANAGEMENT DATA TUGAS
+      const tasksData = [
+        {
+          id: 1,
+          title: "Tugas 1",
+          date: "2026-05-25", // Senin
+          displayDate: "Senin, 25 Mei 2026 · 15.30 WIB",
+          xp: 3,
+          cookie: 5,
+          subtasks: [
+            { id: "1_1", text: "Sub Tugas 1", done: true },
+            { id: "1_2", text: "Sub Tugas 2", done: true },
+            { id: "1_3", text: "Sub Tugas 3", done: true },
+            { id: "1_4", text: "Sub Tugas 4", done: false },
+            { id: "1_5", text: "Sub Tugas 5", done: false },
+            { id: "1_6", text: "Sub Tugas 6", done: false },
+          ],
+        },
+        {
+          id: 2,
+          title: "Tugas 2",
+          date: "2026-05-26", // Selasa
+          displayDate: "Selasa, 26 Mei 2026 · 12.00 WIB",
+          xp: 5,
+          cookie: 8,
+          subtasks: [
+            { id: "2_1", text: "Sub Tugas 1", done: false },
+            { id: "2_2", text: "Sub Tugas 2", done: false },
+          ],
+        },
+      ];
+
+      function renderTasks(dateString) {
+        const container = document.getElementById("task-list-container");
+        if (!container) return;
+        container.innerHTML = "";
+
+        const filteredTasks = tasksData.filter((t) => t.date === dateString);
+
+        if (filteredTasks.length === 0) {
+          container.innerHTML = `<div style="text-align: center; padding: 30px 20px; color: var(--muted); font-size: 13px; font-weight: 700;">Tidak ada tugas terjadwal untuk hari ini.</div>`;
+          return;
+        }
+
+        filteredTasks.forEach((task) => {
+          const doneCount = task.subtasks.filter((s) => s.done).length;
+          const totalCount = task.subtasks.length;
+          const pct =
+            totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
+
+          const subtasksHTML = task.subtasks
+            .map((sub) => {
+              return `
+              <div class="subtask-row ${sub.done ? "done-row" : ""}">
+                <div class="subtask-cb ${sub.done ? "done" : ""}" onclick="toggleSub(this, 'subtasks${task.id}', 'prog${task.id}', 'pct${task.id}')"></div>
+                <span class="subtask-text">${sub.text}</span>
+              </div>
+            `;
+            })
+            .join("");
+
+          const displayStyle = task.id === 2 ? 'style="display:none"' : "";
+
+          const taskHTML = `
+            <div class="task-card-full">
+              <div class="task-card-head" onclick="toggleTask(this)">
+                <div>
+                  <div class="task-due">⏰ ${task.displayDate}</div>
+                  <div class="task-title">${task.title}</div>
+                </div>
+                <div class="task-rewards">
+                  <div class="rew-xp">⭐ +${task.xp} XP</div>
+                  <div class="rew-cookie">🍪 +${task.cookie}</div>
+                </div>
+              </div>
+              <div class="task-progress-row">
+                <div class="progress-wrap task-progress-bar">
+                  <div class="progress-fill task-progress-fill" id="prog${task.id}" style="width: ${pct}%; height: 6px"></div>
+                </div>
+                <div class="task-pct" id="pct${task.id}">${pct}% Selesai</div>
+              </div>
+              <div class="task-body" ${displayStyle}>
+                <div class="sub-label">SUB-TUGAS :</div>
+                <div id="subtasks${task.id}">
+                  ${subtasksHTML}
+                </div>
+                <button class="add-sub-btn" onclick="addSubTask('subtasks${task.id}', 'prog${task.id}', 'pct${task.id}')">
+                  + Tambah Sub-Tugas
+                </button>
+              </div>
+            </div>
+          `;
+          container.insertAdjacentHTML("beforeend", taskHTML);
+        });
+      }
+
+      function buildCalRibbon() {
+        const days = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+        const ribbon = document.getElementById("cal-ribbon");
+        ribbon.innerHTML = "";
+
+        const baseDate = new Date("2026-05-25T00:00:00");
+
+        for (let i = -1; i <= 5; i++) {
+          const d = new Date(baseDate);
+          d.setDate(baseDate.getDate() + i);
+
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, "0");
+          const dd = String(d.getDate()).padStart(2, "0");
+          const dateStr = `${yyyy}-${mm}-${dd}`;
+
+          const el = document.createElement("div");
+          el.className = "cal-day" + (i === 0 ? " active" : "");
+          el.innerHTML = `<div class="cal-day-name">${days[d.getDay()]}</div><div class="cal-day-num">${d.getDate()}</div>`;
+
+          if (i === 0) {
+            renderTasks(dateStr);
+          }
+
+          el.onclick = () => {
+            ribbon
+              .querySelectorAll(".cal-day")
+              .forEach((c) => c.classList.remove("active"));
+            el.classList.add("active");
+            renderTasks(dateStr);
+          };
+          ribbon.appendChild(el);
+        }
+      }
+
+      function toggleTask(head) {
+        const body = head.parentElement.querySelector(".task-body");
+        if (!body) return;
+        body.style.display = body.style.display === "none" ? "flex" : "none";
+      }
+      function toggleSub(cb, sid, pid, pctid) {
+        cb.classList.toggle("done");
+        cb.parentElement.classList.toggle("done-row");
+        updateProgress(sid, pid, pctid);
+      }
+      function updateProgress(sid, pid, pctid) {
+        const c = document.getElementById(sid);
+        const all = c.querySelectorAll(".subtask-cb").length;
+        const done = c.querySelectorAll(".subtask-cb.done").length;
+        const pct = all === 0 ? 0 : Math.round((done / all) * 100);
+        document.getElementById(pid).style.width = pct + "%";
+        document.getElementById(pctid).textContent = pct + "% Selesai";
+      }
+      function addSubTask(sid, pid, pctid) {
+        const c = document.getElementById(sid);
+        const num = c.querySelectorAll(".subtask-row").length + 1;
+        const row = document.createElement("div");
+        row.className = "subtask-row";
+        row.innerHTML = `<div class="subtask-cb" onclick="toggleSub(this,'${sid}','${pid}','${pctid}')"></div><span class="subtask-text">Sub Tugas ${num}</span>`;
+        c.appendChild(row);
+        updateProgress(sid, pid, pctid);
+      }
+      function addNewSubInput() {
+        const c = document.getElementById("new-subtasks");
+        const num = c.querySelectorAll("input").length + 1;
+        const inp = document.createElement("input");
+        inp.className = "input-field";
+        inp.type = "text";
+        inp.placeholder = `Sub-tugas ${num}...`;
+        c.appendChild(inp);
+      }
+      function saveTask() {
+        const name = document.getElementById("new-task-name").value.trim();
+        if (!name) {
+          showToast("Nama tugas tidak boleh kosong!");
+          return;
+        }
+        showToast("✅ Tugas berhasil disimpan!");
+        setTimeout(() => goTo("tasks"), 1200);
+      }
+      function feedPet(cost, name) {
+        let val = parseInt(document.getElementById("cookies-val").textContent);
+        if (val < cost) {
+          showToast("🍪 Cookies tidak cukup!");
+          return;
+        }
+        val -= cost;
+        document.getElementById("cookies-val").textContent = val;
+        showToast(`${name} dimakan Zeno! +XP diberikan 🎉`);
+        const fill = document.getElementById("pet-xp-fill");
+        if (fill) {
+          let cur = parseFloat(fill.style.width) || 55;
+          fill.style.width = Math.min(100, cur + cost * 1.5) + "%";
+        }
+      }
+
+      // ═══════════════════════════════════════════
+      // LOGIKA SCROLL PICKER MODE FOKUS
+      // ═══════════════════════════════════════════
+      let timerSecs = 5400,
+        timerTotal = 5400,
+        timerInterval = null,
+        paused = false;
+      const circumference = 2 * Math.PI * 90;
+
+      // 1. Fungsi Generator Elemen Waktu
+      function populatePicker(id, max) {
+        const list = document.getElementById(id);
+        if (!list) return;
+        list.innerHTML = "";
+        for (let i = 0; i <= max; i++) {
+          const val = String(i).padStart(2, "0");
+          const div = document.createElement("div");
+          div.className = "time-val";
+          div.dataset.val = i;
+          div.textContent = val;
+          list.appendChild(div);
+        }
+      }
+
+      // 2. Baca nilai dari picker yang sedang ada di tengah (selected)
+      function getPickerTime() {
+        const h = parseInt(
+          document.querySelector("#hour-list .selected")?.dataset.val || 0,
+        );
+        const m = parseInt(
+          document.querySelector("#min-list .selected")?.dataset.val || 0,
+        );
+        const s = parseInt(
+          document.querySelector("#sec-list .selected")?.dataset.val || 0,
+        );
+        return h * 3600 + m * 60 + s;
+      }
+
+      // 3. Tambahkan Event Listener Scroll ke Masing-Masing Picker
+      function attachScrollSnapListener(wrapId, listId) {
+        const wrap = document.getElementById(wrapId);
+        const list = document.getElementById(listId);
+        if (!wrap || !list) return;
+
+        let scrollTimeout;
+        wrap.addEventListener("scroll", () => {
+          clearTimeout(scrollTimeout);
+          // Beri jeda kecil agar scroll selesai (debounce)
+          scrollTimeout = setTimeout(() => {
+            // Tinggi item adalah 32px. Posisi tengah = scrollTop / 32
+            const index = Math.round(wrap.scrollTop / 32);
+            const items = list.querySelectorAll(".time-val");
+
+            items.forEach((el) => el.classList.remove("selected"));
+            if (items[index]) {
+              items[index].classList.add("selected");
+              // Update nilai global timer setiap kali picker di-scroll
+              timerSecs = timerTotal = getPickerTime();
+            }
+          }, 50);
+        });
+      }
+
+      // Jalankan inisialisasi picker
+      populatePicker("hour-list", 23);
+      populatePicker("min-list", 59);
+      populatePicker("sec-list", 59);
+
+      attachScrollSnapListener("hour-wrap", "hour-list");
+      attachScrollSnapListener("min-wrap", "min-list");
+      attachScrollSnapListener("sec-wrap", "sec-list");
+
+      // 4. Modifikasi fungsi Preset agar otomatis menggulir (scroll) picker ke posisi yang benar
+      function setPreset(h, m, s) {
+        timerSecs = timerTotal = h * 3600 + m * 60 + s;
+        updateTimerDisplay(); // Untuk UI DND
+
+        // Memaksa scroll bergerak (item tinggi 32px)
+        document.getElementById("hour-wrap").scrollTop = h * 32;
+        document.getElementById("min-wrap").scrollTop = m * 32;
+        document.getElementById("sec-wrap").scrollTop = s * 32;
+      }
+
+      // Atur timer default saat dimuat (1 Jam 30 Menit)
+      window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => setPreset(1, 30, 0), 100);
+      });
+      // ═══════════════════════════════════════════
+
+      function updateTimerDisplay() {
+        const h = Math.floor(timerSecs / 3600);
+        const m = Math.floor((timerSecs % 3600) / 60);
+        const s = timerSecs % 60;
+        document.getElementById("timer-digits").textContent =
+          String(h).padStart(2, "0") +
+          ":" +
+          String(m).padStart(2, "0") +
+          ":" +
+          String(s).padStart(2, "0");
+        const ratio = timerTotal > 0 ? timerSecs / timerTotal : 0;
+        document.getElementById("timer-prog").style.strokeDashoffset =
+          circumference * (1 - ratio);
+        document.getElementById("timer-ref").textContent = `${h}j ${m}m`;
+      }
+
+      function startDND() {
+        if (timerTotal === 0) {
+          showToast("Atur waktu fokus terlebih dahulu!");
+          return;
+        }
+        clearInterval(timerInterval);
+        paused = false;
+        goTo("dnd");
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+          if (!paused && timerSecs > 0) {
+            timerSecs--;
+            updateTimerDisplay();
+          } else if (timerSecs === 0) {
+            clearInterval(timerInterval);
+            showToast("🎉 Sesi fokus selesai! +XP diperoleh.");
+            setTimeout(() => goTo("focus"), 1500);
+          }
+        }, 1000);
+      }
+
+      function togglePause() {
+        paused = !paused;
+        document.getElementById("pause-btn").textContent = paused
+          ? "▶ LANJUT"
+          : "⏸ JEDA";
+      }
+
+      function stopDND() {
+        clearInterval(timerInterval);
+        // Kembalikan ke waktu yang diset di picker
+        timerSecs = timerTotal;
+        goTo("focus");
+        showToast("⏹ Sesi fokus dihentikan.");
+      }
+
+      function toggleLock(wrap) {
+        const t = document.getElementById("lock-toggle");
+        const k = document.getElementById("lock-knob");
+        t.classList.toggle("off");
+        k.style.cssText = t.classList.contains("off")
+          ? "position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3);transition:all .2s"
+          : "position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3);transition:all .2s";
+      }
+
+      function switchTab(el, type) {
+        document
+          .querySelectorAll(".lb-tab")
+          .forEach((t) => t.classList.remove("active"));
+        el.classList.add("active");
+        showToast("Menampilkan data " + type);
+      }
+
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2000);
+      }
+
+      // Init
+      goTo("login");
+      document.getElementById("bottom-nav").style.display = "none";
+      document.getElementById("lock-knob").style.cssText =
+        "position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3);";
+    </script>
+  </body>
+</html>
